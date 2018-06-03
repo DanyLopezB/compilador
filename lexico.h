@@ -6,19 +6,15 @@
 
 using namespace std;
 
-class lexico
-{
-
+class lexico {
 private:
     vector<char> m_caracteres;
-    int traza = 0;	// traza = 1 muestra paso a paso
 
 public:
     lexico();
     ~lexico();
     char devuelveToken(int c);
     void verifToken();
-    int get_Traza(void);
 };
 
 

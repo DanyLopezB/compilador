@@ -3,8 +3,8 @@
 #include <fstream>
 
 
-lexico::lexico()
-{
+lexico::lexico() {
+
     ifstream archivo("archivoFuente.txt", ios::in);
 
     if (archivo.is_open())
@@ -22,19 +22,10 @@ lexico::lexico()
         cerr << "Imposible de abrir el archivo" << endl;
 }
 
-lexico::~lexico()
-{
+lexico::~lexico() {}
 
-}
+char lexico::devuelveToken(int c) {
 
-int lexico::get_Traza()
-{
-    traza = (traza) ? 1 : 0;
-    return traza;
-}
-
-char lexico::devuelveToken(int c)
-{
     if (c >= m_caracteres.size())
         return '\0';
 
@@ -44,14 +35,7 @@ char lexico::devuelveToken(int c)
 void lexico::verifToken() {
     int i;
 
-    cout << "*** Compilador ***\n";
-    cout << "\n";
-    cout << "Selecciona una de las opciones siguientes :\n";
-    cout << "0 - Sin traza\n1 - Con traza\n";
-    cin >> traza;
-    cout << "\n";
 
-    if (get_Traza()) {
         for (i = 0; i < m_caracteres.size() - 1; ++i) {
             switch (m_caracteres[i]) {
 
@@ -125,7 +109,6 @@ void lexico::verifToken() {
                     break;
             }
         }
-    }
 
     for (i = 0; i < m_caracteres.size(); ++i)
         cout << " " << m_caracteres[i];
