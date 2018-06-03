@@ -17,6 +17,10 @@ public:
     void verifToken();
 };
 
+/*
+ * Soy Khea Bro.
+ */
+
 
 
 #endif //COMPILADOR_LEXICO_H
