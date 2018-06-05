@@ -4,13 +4,14 @@
 
 #include <iostream>
 #include "lexico.h"
+#include "codigo.h"
 
 using namespace std;
 
 class sintactico {
 private:
     lexico lexico;
-    GeneraCodigo generaCodigo;
+    codigo generaCodigo;
     char c = 0;
 
 public:
