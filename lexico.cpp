@@ -1,18 +1,17 @@
 #include "lexico.h"
-//#include <ctype.h>
-#include <fstream>
 
 
 lexico::lexico() {
 
-    ifstream archivo("archivoFuente.txt", ios::in);
+    fstream archivo;
 
-    if (archivo.is_open())
-    {
-        do
-        {
+    archivo.open("archivoFuente.txt", ios::in);
+
+    if (archivo.is_open()) {
+
+        while (archivo.good()){
             m_caracteres.push_back(archivo.get());
-        } while (!archivo.eof());
+        }
 
         verifToken();
         archivo.close();
@@ -33,8 +32,8 @@ char lexico::devuelveToken(int c) {
 }
 
 void lexico::verifToken() {
-    int i;
 
+    int i;
 
         for (i = 0; i < m_caracteres.size() - 1; ++i) {
             switch (m_caracteres[i]) {
