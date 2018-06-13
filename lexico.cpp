@@ -5,7 +5,7 @@ lexico::lexico() {
 
     fstream archivo;
 
-    archivo.open("archivoFuente.txt", ios::in);
+    archivo.open("../archivoFuente.txt");
 
     if (archivo.is_open()) {
 
@@ -35,11 +35,11 @@ void lexico::verifToken() {
 
     int i;
 
-        for (i = 0; i < m_caracteres.size() - 1; ++i) {
+        for (i = 0; i < m_caracteres.size() - 1; i++) {
             switch (m_caracteres[i]) {
 
                 case 'M':
-                    cout << "M : Palabra reservada, punto de entrada del programa" << endl;
+                    cout << "M : Palabra reservada, inicio del programa" << endl;
                     break;
                 case 'R':
                     cout << "R : Palabra reservada R" << endl;
@@ -108,7 +108,4 @@ void lexico::verifToken() {
                     break;
             }
         }
-
-    for (i = 0; i < m_caracteres.size(); ++i)
-        cout << " " << m_caracteres[i];
 }

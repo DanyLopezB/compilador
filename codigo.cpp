@@ -1,7 +1,7 @@
 #include "codigo.h"
 
 codigo::codigo() {
-    m_salida.open("salida.txt");
+    m_salida.open("../salida.txt");
 }
 
 void codigo::code() {

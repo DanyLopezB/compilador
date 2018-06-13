@@ -4,31 +4,27 @@
  * El constructor verifica que este el simbolo de incio de programa para poder seguir.
  */
 sintactico::sintactico() {
-    if (lexico.devuelveToken(c) == 'M')
-    {
+    if (lexico.devuelveToken(c) == 'M') {
         c++;
         cout << "M, entrada del programa"<<endl;
-        while (lexico.devuelveToken(c) == ' ')
+        while (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n')
             c++;
 
-        if (lexico.devuelveToken(c) == '{')
-        {
+        if (lexico.devuelveToken(c) == '{') {
             generaCodigo.code();
             cout << "Inicio del bloque"<<endl;
             c++;
             bloque();
         }
 
-        if (lexico.devuelveToken(c) == '}')
-        {
+        if (lexico.devuelveToken(c) == '}') {
             cout << "Exito."<<endl;
             generaCodigo.end();
             return;
         }
     }
 
-    else
-    {
+    else {
         cout << "No hay 'M'. "<<endl;
         return;
     }
@@ -40,8 +36,8 @@ sintactico::~sintactico() {}
 /*
  * Se explica solo esto. Bai
  */
-void sintactico::bloque()
-{
+void sintactico::bloque() {
+
     while (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n')
         c++;
 
@@ -78,7 +74,7 @@ void sintactico::nueSentencia() {
         c++;
 
     if (lexico.devuelveToken(c) == ';') {
-        cout << "Separador de sentencia ;\n";
+        cout << "Separador de sentencia ;" << endl;
         c++;
 
         if (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n') {
@@ -105,7 +101,7 @@ void sintactico::nueSentencia() {
     }
 
     else {
-        cout << "Falta el separador de sentencia."<<endl;
+        cout << "Falta el separador de sentencia"<<endl;
         return;
     }
 }
@@ -125,7 +121,7 @@ void sintactico::asignacion() {
 
 
     if (lexico.devuelveToken(c) != '=') {
-        cout << "Falta el '='."<<endl;
+        cout << "Falta el '=' "<<endl;
         return;
     }
 
@@ -229,7 +225,7 @@ void sintactico::nueTerminos()
         if (lexico.devuelveToken(c) == '+')
             opeNegativa = false;
 
-        cout << "Hay termino" << lexico.devuelveToken(c) << endl;
+        cout << "Hay termino " << lexico.devuelveToken(c) << endl;
 
         c++;
         if (termino()) {
