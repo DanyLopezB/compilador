@@ -2,6 +2,7 @@
 
 /*
  * El constructor verifica que este el simbolo de incio de programa para poder seguir.
+ * Verifica los tokens de apertura y cierre del programa
  */
 sintactico::sintactico() {
     if (lexico.devuelveToken(c) == 'M') {
@@ -34,7 +35,7 @@ sintactico::~sintactico() {}
 
 
 /*
- * Se explica solo esto. Bai
+ * Iniciamos verificando si hay nueva sentecia y continua.
  */
 void sintactico::bloque() {
 
@@ -68,6 +69,35 @@ void sintactico::sentencia() {
     }
 }
 
+bool sintactico::escritura()  {
+    bool esPermitido = false;
+
+    c++;
+    if (lexico.devuelveToken(c) != ' ') {
+        cout << "No hay 'espacio'"<<endl;
+        return esPermitido;
+    }
+
+    else
+        c++;
+
+    if (variable()) {
+        esPermitido = true;
+        generaCodigo.output(lexico.devuelveToken(c));
+        c++;
+        return esPermitido;
+    }
+
+    else {
+        cout << "No variable."<<endl;
+        return esPermitido;
+    }
+}
+
+/*
+ *
+ */
+
 void sintactico::nueSentencia() {
 
     while (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n')
@@ -94,9 +124,10 @@ void sintactico::nueSentencia() {
                 c++;
         }
 
-        if (lexico.devuelveToken(c) != ' ' || lexico.devuelveToken(c) == '\n') {
+        if (lexico.devuelveToken(c) != ' ' || lexico.devuelveToken(c) != '\n') {
             sentencia();
             nueSentencia();
+
         }
     }
 
@@ -114,10 +145,9 @@ void sintactico::expresion() {
 void sintactico::asignacion() {
     char variable = lexico.devuelveToken(c - 1);
 
-    while (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n') {
-
+    while (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n')
         c++;
-    }
+
 
 
     if (lexico.devuelveToken(c) != '=') {
@@ -139,6 +169,7 @@ void sintactico::asignacion() {
 }
 
 bool sintactico::lectura() {
+
     bool esPermitido = false;
     c++;
 
@@ -158,39 +189,15 @@ bool sintactico::lectura() {
     }
 
     else {
-        cout << "No hay variable.\n";
+        cout << "No hay variable."<<endl;
         return esPermitido;
     }
 }
 
-bool sintactico::escritura()
-{
-    bool esPermitido = false;
 
-    c++;
-    if (lexico.devuelveToken(c) != ' ') {
-        cout << "No hay 'espacio'"<<endl;
-        return esPermitido;
-    }
 
-    else
-        c++;
+bool sintactico::variable() {
 
-    if (variable()) {
-        esPermitido = true;
-        generaCodigo.output(lexico.devuelveToken(c));
-        c++;
-        return esPermitido;
-    }
-
-    else {
-        cout << "No variable."<<endl;
-        return esPermitido;
-    }
-}
-
-bool sintactico::variable()
-{
     bool esVariable = false;
 
     if (lexico.devuelveToken(c) >= 'a' && lexico.devuelveToken(c) <= 'z')
@@ -204,9 +211,9 @@ bool sintactico::variable()
 
 }
 
-bool sintactico::termino()
-{
-    if (factor()) {
+bool sintactico::termino() {
+
+    if (parentesis()) {
         nueFactores();
         return true;
     }
@@ -214,8 +221,8 @@ bool sintactico::termino()
     return false;
 }
 
-void sintactico::nueTerminos()
-{
+void sintactico::nueTerminos() {
+
     bool opeNegativa = true;
 
     while (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n')
@@ -228,6 +235,7 @@ void sintactico::nueTerminos()
         cout << "Hay termino " << lexico.devuelveToken(c) << endl;
 
         c++;
+
         if (termino()) {
             if (opeNegativa)
                 generaCodigo.neg();
@@ -239,17 +247,18 @@ void sintactico::nueTerminos()
     }
 }
 
-bool sintactico::factor() {
+bool sintactico::parentesis() {
     while (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n')
         c++;
 
     if (lexico.devuelveToken(c) == '(') {
         c++;
         expresion();
+
         if (lexico.devuelveToken(c) == ')')
             c++;
-        else
-        {
+
+        else {
             cout << "Falta un ')' "<<endl;
             return false;
         }

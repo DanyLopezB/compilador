@@ -27,7 +27,7 @@ public:
     void expresion();
     bool termino();
     void nueTerminos();
-    bool factor();
+    bool parentesis();
     void nueFactores();
     bool constante();
 };
