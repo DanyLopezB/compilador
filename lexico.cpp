@@ -12,9 +12,9 @@ lexico::lexico() {
         while (archivo.good()){
             m_caracteres.push_back(archivo.get());
         }
-
-        verifToken();
         archivo.close();
+        verifToken();
+
     }
 
     else

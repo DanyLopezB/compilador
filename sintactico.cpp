@@ -5,20 +5,20 @@
  * Verifica los tokens de apertura y cierre del programa
  */
 sintactico::sintactico() {
-    if (lexico.devuelveToken(c) == 'M') {
+    if (lex.devuelveToken(c) == 'M') {
         c++;
         cout << "M, entrada del programa"<<endl;
-        while (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n')
+        while (lex.devuelveToken(c) == ' ' || lex.devuelveToken(c) == '\n')
             c++;
 
-        if (lexico.devuelveToken(c) == '{') {
+        if (lex.devuelveToken(c) == '{') {
             generaCodigo.code();
             cout << "Inicio del bloque"<<endl;
             c++;
             bloque();
         }
 
-        if (lexico.devuelveToken(c) == '}') {
+        if (lex.devuelveToken(c) == '}') {
             cout << "Exito."<<endl;
             generaCodigo.end();
             return;
@@ -39,11 +39,11 @@ sintactico::~sintactico() {}
  */
 void sintactico::bloque() {
 
-    while (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n')
+    while (lex.devuelveToken(c) == ' ' || lex.devuelveToken(c) == '\n')
         c++;
 
     sentencia();
-    cout << "Nueva sentencia " << lexico.devuelveToken(c) << endl;
+    cout << "Nueva sentencia " << lex.devuelveToken(c) << endl;
     nueSentencia();
 }
 
@@ -53,13 +53,13 @@ void sintactico::bloque() {
 
 void sintactico::sentencia() {
 
-    if (lexico.devuelveToken(c) == 'R') {
-        cout << "Lectura encontrada : " << lexico.devuelveToken(c) << endl;
+    if (lex.devuelveToken(c) == 'R') {
+        cout << "Lectura encontrada : " << lex.devuelveToken(c) << endl;
         lectura();
     }
 
-    else if (lexico.devuelveToken(c) == 'W') {
-        cout << "Sentencia encontrada : " << lexico.devuelveToken(c) << endl;
+    else if (lex.devuelveToken(c) == 'W') {
+        cout << "Sentencia encontrada : " << lex.devuelveToken(c) << endl;
         escritura();
     }
 
@@ -73,7 +73,7 @@ bool sintactico::escritura()  {
     bool esPermitido = false;
 
     c++;
-    if (lexico.devuelveToken(c) != ' ') {
+    if (lex.devuelveToken(c) != ' ') {
         cout << "No hay 'espacio'"<<endl;
         return esPermitido;
     }
@@ -83,7 +83,7 @@ bool sintactico::escritura()  {
 
     if (variable()) {
         esPermitido = true;
-        generaCodigo.output(lexico.devuelveToken(c));
+        generaCodigo.output(lex.devuelveToken(c));
         c++;
         return esPermitido;
     }
@@ -100,31 +100,31 @@ bool sintactico::escritura()  {
 
 void sintactico::nueSentencia() {
 
-    while (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n')
+    while (lex.devuelveToken(c) == ' ' || lex.devuelveToken(c) == '\n')
         c++;
 
-    if (lexico.devuelveToken(c) == ';') {
+    if (lex.devuelveToken(c) == ';') {
         cout << "Separador de sentencia ;" << endl;
         c++;
 
-        if (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n') {
-            while (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n')
+        if (lex.devuelveToken(c) == ' ' || lex.devuelveToken(c) == '\n') {
+            while (lex.devuelveToken(c) == ' ' || lex.devuelveToken(c) == '\n')
                 c++;
         }
 
-        if (lexico.devuelveToken(c) == '}') {
+        if (lex.devuelveToken(c) == '}') {
             cout << "Fin de bloque ok. Sintaxis correcta."<<endl;
             generaCodigo.end();
             c++;
             return;
         }
 
-        else if (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n') {
-            while (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n')
+        else if (lex.devuelveToken(c) == ' ' || lex.devuelveToken(c) == '\n') {
+            while (lex.devuelveToken(c) == ' ' || lex.devuelveToken(c) == '\n')
                 c++;
         }
 
-        if (lexico.devuelveToken(c) != ' ' || lexico.devuelveToken(c) != '\n') {
+        if (lex.devuelveToken(c) != ' ' || lex.devuelveToken(c) != '\n') {
             sentencia();
             nueSentencia();
 
@@ -143,14 +143,13 @@ void sintactico::expresion() {
 }
 
 void sintactico::asignacion() {
-    char variable = lexico.devuelveToken(c - 1);
+    char variable = lex.devuelveToken(c - 1);
 
-    while (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n')
+    while (lex.devuelveToken(c) == ' ' || lex.devuelveToken(c) == '\n')
         c++;
 
 
-
-    if (lexico.devuelveToken(c) != '=') {
+    if (lex.devuelveToken(c) != '=') {
         cout << "Falta el '=' "<<endl;
         return;
     }
@@ -160,7 +159,7 @@ void sintactico::asignacion() {
         generaCodigo.pusha(variable);
         c++;
 
-        while (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n')
+        while (lex.devuelveToken(c) == ' ' || lex.devuelveToken(c) == '\n')
             c++;
 
         expresion();
@@ -173,7 +172,7 @@ bool sintactico::lectura() {
     bool esPermitido = false;
     c++;
 
-    if (lexico.devuelveToken(c) != ' ') {
+    if (lex.devuelveToken(c) != ' ') {
         cout << "No hay 'espacio'"<<endl;
         return esPermitido;
     }
@@ -183,7 +182,7 @@ bool sintactico::lectura() {
 
     if (variable()) {
         esPermitido = true;
-        generaCodigo.input(lexico.devuelveToken(c));
+        generaCodigo.input(lex.devuelveToken(c));
         c++;
         return esPermitido;
     }
@@ -200,9 +199,8 @@ bool sintactico::variable() {
 
     bool esVariable = false;
 
-    if (lexico.devuelveToken(c) >= 'a' && lexico.devuelveToken(c) <= 'z')
-    {
-        cout << "Variable aceptada : " << lexico.devuelveToken(c) << endl;
+    if (lex.devuelveToken(c) >= 'a' && lex.devuelveToken(c) <= 'z') {
+        cout << "Variable aceptada : " << lex.devuelveToken(c) << endl;
         esVariable = true;
         return esVariable;
     }
@@ -223,39 +221,84 @@ bool sintactico::termino() {
 
 void sintactico::nueTerminos() {
 
-    bool opeNegativa = true;
+   // bool neg = true;
 
-    while (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n')
+    while (lex.devuelveToken(c) == ' ' || lex.devuelveToken(c) == '\n'){
         c++;
+    }
 
-    if (lexico.devuelveToken(c) == '+' || lexico.devuelveToken(c) == '-') {
-        if (lexico.devuelveToken(c) == '+')
-            opeNegativa = false;
+    switch (lex.devuelveToken(c)) {
 
-        cout << "Hay termino " << lexico.devuelveToken(c) << endl;
+        case '*':
+            cout << "Hay termino " << lex.devuelveToken(c) << endl;
+            c++;
+            if (termino()) {
+                generaCodigo.mul();
+            }
+            break;
+        case '+':
+            cout << "Hay termino " << lex.devuelveToken(c) << endl;
+            c++;
+            if (termino()) {
+                generaCodigo.add();
+            }
+            break;
+
+        case '/':
+            cout << "Hay termino " << lex.devuelveToken(c) << endl;
+            c++;
+            if (termino()) {
+                generaCodigo.div();
+            }
+            break;
+        case '-':
+            cout << "Hay termino " << lex.devuelveToken(c) << endl;
+            c++;
+            if (termino()) {
+                generaCodigo.neg();
+            }
+            break;
+        case '%':
+            cout << "Hay termino " << lex.devuelveToken(c) << endl;
+            c++;
+            if (termino()) {
+                generaCodigo.mod();
+            }
+            break;
+
+        default:
+            break;
+    }
+
+   /* if (lex.devuelveToken(c) == '+' || lex.devuelveToken(c) == '-' || lex.devuelveToken(c) == '*'|| lex.devuelveToken(c) == '/') {
+        if (lex.devuelveToken(c) == '+')
+            neg = false;
+
+        cout << "Hay termino " << lex.devuelveToken(c) << endl;
 
         c++;
 
         if (termino()) {
-            if (opeNegativa)
+            if (neg)
                 generaCodigo.neg();
 
             generaCodigo.add();
 
-            nueTerminos();
         }
-    }
+    }*/
+
 }
 
+
 bool sintactico::parentesis() {
-    while (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n')
+    while (lex.devuelveToken(c) == ' ' || lex.devuelveToken(c) == '\n')
         c++;
 
-    if (lexico.devuelveToken(c) == '(') {
+    if (lex.devuelveToken(c) == '(') {
         c++;
         expresion();
 
-        if (lexico.devuelveToken(c) == ')')
+        if (lex.devuelveToken(c) == ')')
             c++;
 
         else {
@@ -267,15 +310,15 @@ bool sintactico::parentesis() {
     }
 
     else if (variable()) {
-        generaCodigo.pusha(lexico.devuelveToken(c));
+        generaCodigo.pusha(lex.devuelveToken(c));
         generaCodigo.load();
         c++;
         return true;
     }
 
     else if (constante()) {
-        generaCodigo.pushc(lexico.devuelveToken(c));
-        cout << "Habemus constante " << lexico.devuelveToken(c) << endl;
+        generaCodigo.pushc(lex.devuelveToken(c));
+        cout << "Habemus constante " << lex.devuelveToken(c) << endl;
         c++;
         return true;
     }
@@ -289,35 +332,15 @@ bool sintactico::parentesis() {
 }
 
 void sintactico::nueFactores() {
-    while (lexico.devuelveToken(c) == ' ' || lexico.devuelveToken(c) == '\n')
+    while (lex.devuelveToken(c) == ' ' || lex.devuelveToken(c) == '\n')
         c++;
-
-    switch (lexico.devuelveToken(c)) {
-
-        case '*':
-            generaCodigo.mul();
-            c++;
-            break;
-
-        case '/':
-            generaCodigo.div();
-            c++;
-            break;
-
-        case '%':
-            generaCodigo.mod();
-            c++;
-            break;
-
-        default:
-            break;
-    }
+    nueTerminos();
 }
 
 bool sintactico::constante() {
     bool esPermitido = false;
 
-    if (isdigit(lexico.devuelveToken(c))) {
+    if (isdigit(lex.devuelveToken(c))) {
         esPermitido = true;
         return esPermitido;
     }

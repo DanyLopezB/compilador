@@ -1,5 +1,6 @@
 M {
 R a ;
-b = a - 5 ;
-W b ;
+R c ;
+j = c * a;
+W j;
 }

@@ -10,7 +10,7 @@ using namespace std;
 
 class sintactico {
 private:
-    lexico lexico;
+    lexico lex;
     codigo generaCodigo;
     char c = 0;
 
